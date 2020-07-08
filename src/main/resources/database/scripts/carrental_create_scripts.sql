@@ -13,6 +13,7 @@ CREATE TABLE `user` (
     `surname` varchar(60) NOT NULL,
     `email` varchar(120) NOT NULL UNIQUE,
     `password` varchar(255) NOT NULL,
+    `phone_number` varchar(12),
     `active` boolean NOT NULL DEFAULT TRUE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
@@ -105,6 +106,7 @@ DROP TABLE IF EXISTS `car`;
 CREATE TABLE `car` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `image` varchar(255),
+    `currently_available` boolean,
 	`car_model_id` int(11) NOT NULL,
     `localization_id` int(11) NOT NULL,
     `registration_number` varchar(11) NOT NULL,
