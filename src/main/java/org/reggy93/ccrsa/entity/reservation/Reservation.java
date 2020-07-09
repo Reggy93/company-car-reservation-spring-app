@@ -33,9 +33,11 @@ public class Reservation implements Serializable {
     @NotEmpty
     private Status status;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @NotEmpty
     private LocalDateTime from;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @NotEmpty
     private LocalDateTime to;
 
