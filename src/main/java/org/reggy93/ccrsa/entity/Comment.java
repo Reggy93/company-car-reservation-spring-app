@@ -33,6 +33,7 @@ public class Comment implements Serializable {
     @Size(min = 2)
     private String content;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @NotEmpty
     private LocalDateTime time;
 
