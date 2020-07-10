@@ -17,7 +17,7 @@ import java.util.Set;
  * created on 08 Jul 2020
  */
 @Entity
-@Table(name = "make")
+@Table(name = "makes")
 public class Make implements Serializable {
 
     private static final long serialVersionUID = 1L;

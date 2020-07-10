@@ -15,7 +15,7 @@ import java.util.Set;
  * created on 08 Jul 2020
  */
 @Entity
-@Table(name = "car")
+@Table(name = "cars")
 public class Car implements Serializable {
 
     private static final long serialVersionUID = 1L;

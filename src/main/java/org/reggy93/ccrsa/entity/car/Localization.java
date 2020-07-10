@@ -17,7 +17,7 @@ import java.io.Serializable;
  * created on 08 Jul 2020
  */
 @Entity
-@Table(name = "localization")
+@Table(name = "localizations")
 public class Localization implements Serializable {
 
     private static final long serialVersionUID = 1L;
