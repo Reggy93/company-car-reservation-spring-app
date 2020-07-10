@@ -5,9 +5,9 @@ use `carrental`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `users`;
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` varchar(50) NOT NULL,
     `surname` varchar(60) NOT NULL,
@@ -17,93 +17,93 @@ CREATE TABLE `user` (
     `active` boolean NOT NULL DEFAULT TRUE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `role`;
+DROP TABLE IF EXISTS `roles`;
 
-CREATE TABLE `role` (
+CREATE TABLE `roles` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `role` varchar(20) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `user_role`;
+DROP TABLE IF EXISTS `users_roles`;
 
-CREATE TABLE `user_role` (
+CREATE TABLE `users_roles` (
 	`user_id` int(11) NOT NULL,
     `role_id` int(11) NOT NULL,
-    
+
     PRIMARY KEY (`user_id`,`role_id`),
-    
-    KEY `FK_USER_user_role_idx` (`user_id`),
-    
-    CONSTRAINT `FK_ROLE_user_role` FOREIGN KEY (`role_id`)
-    REFERENCES `role` (`id`)
+
+    KEY `FK_USERS_users_roles_idx` (`user_id`),
+
+    CONSTRAINT `FK_ROLES_users_roles` FOREIGN KEY (`role_id`)
+    REFERENCES `roles` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION,
-    
-    CONSTRAINT `FK_USER_user_role` FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
+
+    CONSTRAINT `FK_USERS_users_roles` FOREIGN KEY (`user_id`)
+    REFERENCES `users` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    
-DROP TABLE IF EXISTS `comment`;
 
-CREATE TABLE `comment` (
+DROP TABLE IF EXISTS `comments`;
+
+CREATE TABLE `comments` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `content` text NOT NULL,
     `time` datetime NOT NULL,
     `user_id` int(11) NOT NULL,
-    
-    KEY `FK_USER_comment_idx` (`user_id`),
-    
-    CONSTRAINT `FK_USER_comment` FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
+
+    KEY `FK_USERS_comments_idx` (`user_id`),
+
+    CONSTRAINT `FK_USERS_comments` FOREIGN KEY (`user_id`)
+    REFERENCES `users` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `country`;
+DROP TABLE IF EXISTS `countries`;
 
-CREATE TABLE `country` (
+CREATE TABLE `countries` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` varchar(100) NOT NULL,
     `iso_code` char(6) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `localization`;
+DROP TABLE IF EXISTS `localizations`;
 
-CREATE TABLE `localization` (
+CREATE TABLE `localizations` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `city` varchar(255) NOT NULL,
     `country_id` int(11),
-    
-    KEY `FK_COUNTRY_localization_idx` (`country_id`),
-    
-    CONSTRAINT `FK_COUNTRY_localization` FOREIGN KEY (`country_id`)
-    REFERENCES `country` (`id`)
+
+    KEY `FK_COUNTRIES_localizations_idx` (`country_id`),
+
+    CONSTRAINT `FK_COUNTRIES_localizations` FOREIGN KEY (`country_id`)
+    REFERENCES `countries` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `make`;
+DROP TABLE IF EXISTS `makes`;
 
-CREATE TABLE `make` (
+CREATE TABLE `makes` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `car_model`;
+DROP TABLE IF EXISTS `cars_models`;
 
-CREATE TABLE `car_model` (
+CREATE TABLE `cars_models` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` varchar(255) NOT NULL,
     `make_id` int(11),
-    
-    KEY `FK_MAKE_car_model_idx` (`make_id`),
-    
-    CONSTRAINT `FK_MAKE_car_model` FOREIGN KEY (`make_id`)
-    REFERENCES `make` (`id`)
+
+    KEY `FK_MAKES_cars_models_idx` (`make_id`),
+
+    CONSTRAINT `FK_MAKES_cars_models` FOREIGN KEY (`make_id`)
+    REFERENCES `makes` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `car`;
+DROP TABLE IF EXISTS `cars`;
 
-CREATE TABLE `car` (
+CREATE TABLE `cars` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `image` varchar(255),
     `currently_available` boolean,
@@ -111,36 +111,36 @@ CREATE TABLE `car` (
     `localization_id` int(11) NOT NULL,
     `registration_number` varchar(11) NOT NULL,
     `fuel_type` varchar(10) NOT NULL,
-    `engine_capacity` float NOT NULL,  
+    `engine_capacity` float NOT NULL,
     `horse_power` smallint UNSIGNED NOT NULL,
     `milometer` mediumint UNSIGNED NOT NULL,
     `number_of_doors` tinyint UNSIGNED NOT NULL,
     `description` text,
     `comment_id` int(11),
-    
-    KEY `FK_COMMENT_car_details_idx` (`comment_id`),
-    
-    CONSTRAINT `FK_COMMENT_car_details` FOREIGN KEY (`comment_id`)
-    REFERENCES `comment` (`id`)
+
+    KEY `FK_COMMENTS_cars_details_idx` (`comment_id`),
+
+    CONSTRAINT `FK_COMMENTS_cars_details` FOREIGN KEY (`comment_id`)
+    REFERENCES `comments` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION,
-    
-    KEY `FK_CAR_MODEL_car_idx` (`car_model_id`),
-    
-    CONSTRAINT `FK_CAR_MODEL_car` FOREIGN KEY (`car_model_id`)
-    REFERENCES `car_model` (`id`)
+
+    KEY `FK_CARS_MODELS_cars_idx` (`car_model_id`),
+
+    CONSTRAINT `FK_CARS_MODELS_cars` FOREIGN KEY (`car_model_id`)
+    REFERENCES `cars_models` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION,
-    
-    KEY `FK_LOCALIZATION_car_idx` (`localization_id`),
-    
-    CONSTRAINT `FK_LOCALIZATION_car` FOREIGN KEY (`localization_id`)
-    REFERENCES `localization` (`id`)
+
+    KEY `FK_LOCALIZATIONS_cars_idx` (`localization_id`),
+
+    CONSTRAINT `FK_LOCALIZATIONS_cars` FOREIGN KEY (`localization_id`)
+    REFERENCES `localizations` (`id`)
     ON DELETE NO ACTION ON UPDATE NO ACTION
-    
+
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `reservation`;
+DROP TABLE IF EXISTS `reservations`;
 
-CREATE TABLE `reservation` (
+CREATE TABLE `reservations` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `satus` varchar(100) NOT NULL,
   `from` datetime NOT NULL,
@@ -148,32 +148,32 @@ CREATE TABLE `reservation` (
   `user_id` int(11) NOT NULL,
   `car_id` int(11) NOT NULL,
   `comment_id` int(11) NOT NULL,
-  
-  KEY `FK_USER_reservation_idx` (`user_id`),
-  
-  CONSTRAINT `FK_USER_reservation` FOREIGN KEY (`user_id`)
-  REFERENCES `user` (`id`)
+
+  KEY `FK_USERS_reservations_idx` (`user_id`),
+
+  CONSTRAINT `FK_USERS_reservations` FOREIGN KEY (`user_id`)
+  REFERENCES `users` (`id`)
   ON DELETE NO ACTION ON UPDATE NO ACTION,
-  
-  KEY `FK_CAR_reservation_idx` (`car_id`),
-  
-  CONSTRAINT `FK_CAR_reservation` FOREIGN KEY (`car_id`)
-  REFERENCES `car` (`id`)
+
+  KEY `FK_CARS_reservations_idx` (`car_id`),
+
+  CONSTRAINT `FK_CARS_reservations` FOREIGN KEY (`car_id`)
+  REFERENCES `cars` (`id`)
   ON DELETE NO ACTION ON UPDATE NO ACTION,
-  
-  KEY `FK_COMMENT_reservation_idx` (`comment_id`),
-  
-  CONSTRAINT `FK_COMMENT_reservation` FOREIGN KEY (`comment_id`)
-  REFERENCES `comment` (`id`)
+
+  KEY `FK_COMMENTS_reservations_idx` (`comment_id`),
+
+  CONSTRAINT `FK_COMMENTS_reservations` FOREIGN KEY (`comment_id`)
+  REFERENCES `comments` (`id`)
   ON DELETE NO ACTION ON UPDATE NO ACTION
-  
+
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `archived_reservation`;
+DROP TABLE IF EXISTS `archived_reservations`;
 
 -- Reservations are inserted into this table, when user or car is deleted.
--- TODO: store also comments (probably table comment_archive) to create  
-CREATE TABLE `archived_reservation` (
+-- TODO: store also comments (probably table comment_archive) to create
+CREATE TABLE `archived_reservations` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `status` varchar(100) NOT NULL,
     `from` datetime NOT NULL,
@@ -184,7 +184,6 @@ CREATE TABLE `archived_reservation` (
     `car_make` varchar(100) NOT NULL,
     `car_model` varchar(255) NOT NULL,
 	`car_registration_number` varchar(11) NOT NULL
-    
 ) ;
 
 SET FOREIGN_KEY_CHECKS = 1;

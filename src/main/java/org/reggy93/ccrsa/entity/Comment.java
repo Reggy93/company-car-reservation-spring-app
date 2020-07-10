@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  * created on 08 Jul 2020
  */
 @Entity
-@Table(name = "comment")
+@Table(name = "comments")
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
