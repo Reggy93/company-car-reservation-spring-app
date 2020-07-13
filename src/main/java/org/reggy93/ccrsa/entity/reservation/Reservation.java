@@ -33,6 +33,10 @@ public class Reservation implements Serializable {
     @NotEmpty
     private Status status;
 
+    @Enumerated(value = EnumType.STRING)
+    @NotEmpty
+    private Type type;
+
     @Temporal(TemporalType.TIMESTAMP)
     @NotEmpty
     private LocalDateTime from;
