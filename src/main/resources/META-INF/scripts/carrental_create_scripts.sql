@@ -145,6 +145,7 @@ CREATE TABLE `reservations` (
   `satus` varchar(100) NOT NULL,
   `from` datetime NOT NULL,
   `to` datetime NOT NULL,
+  `type` varchar(10) NOT NULL,
   `user_id` int(11) NOT NULL,
   `car_id` int(11) NOT NULL,
   `comment_id` int(11) NOT NULL,
