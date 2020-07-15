@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+        xsi:schemaLocation="
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context.xsd
+  http://www.springframework.org/schema/mvc
+  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+  http://www.springframework.org/schema/tx
+  http://www.springframework.org/schema/tx/spring-tx.xsd
+  http://www.springframework.org/schema/data/jpa
+  http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+    <!-- Add support for component scanning -->
+    <context:component-scan base-package="org.reggy93.ccrsa"/>
+    <context:property-placeholder location="classpath:application.properties" />
+
+    <!-- Add support for conversion, formatting and validation support -->
+    <mvc:annotation-driven/>
+
+    <mvc:resources location="/resources/" mapping="/resources/**"/>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <!-- Connection properties -->
+        <property name="driverClass" value="${dataSource.value.driverClass}"/>
+        <property name="jdbcUrl" value="${dataSource.value.jdbcUrl}"/>
+        <property name="user" value="${dataSource.value.user}"/>
+        <property name="password" value="${dataSource.value.password}"/>
+        <!-- Pool properties -->
+        <property name="minPoolSize" value="${dataSource.value.minPoolSize}"/>
+        <property name="initialPoolSize" value="${dataSource.value.initialPoolSize}"/>
+        <property name="maxPoolSize" value="${dataSource.value.maxPoolSize}"/>
+        <property name="acquireIncrement" value="${dataSource.value.acquireIncrement}"/>
+        <property name="maxStatements" value="${dataSource.value.maxStatements}"/>
+        <property name="idleConnectionTestPeriod" value="${dataSource.value.idleConnectionTestPeriod}"/>
+        <property name="loginTimeout" value="${dataSource.value.loginTimeout}"/>
+    </bean>
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="org.reggy93.ccrsa.service.entity"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform" value="${entityManagerFactory.value.databasePlatform}"/>
+                <property name="showSql" value="${entityManagerFactory.value.showSql}"/>
+            </bean>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">${entityManagerFactory.jpaProperties.value.hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.format_sql">${entityManagerFactory.jpaProperties.value.hibernate.format_sql}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <jpa:repositories base-package="org.reggy93.ccrsa.service.dao" entity-manager-factory-ref="entityManagerFactory"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="modelMapper" class="org.modelmapper.ModelMapper"/>
+
+    <tx:annotation-driven/>
+</beans>
