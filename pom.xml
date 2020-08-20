@@ -10,6 +10,7 @@
     <packaging>war</packaging>
 
     <properties>
+        <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>5.2.7.RELEASE</spring.version>
         <servlets.version>4.0.1</servlets.version>
@@ -123,7 +124,10 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>11</release>
+                    <source>11</source>
+                    <target>11</target>
+                    <!-- <release>11</release> cannot be used as it's not still supported by SonarCloud scanner - see: -->
+                    <!-- https://community.sonarsource.com/t/java-parse-error-source-level-1-8-or-above-although-project-uses-11/22288 -->
                 </configuration>
             </plugin>
             <plugin>
