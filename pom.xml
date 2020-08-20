@@ -11,9 +11,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>5.2.7.RELEASE</spring.version>
+        <spring.version>5.2.8.RELEASE</spring.version>
+        <spring.data.version>2.3.3.RELEASE</spring.data.version>
+        <spring.hateoas.version>1.1.1.RELEASE</spring.hateoas.version>
+        <spring.test.version>5.2.8.RELEASE</spring.test.version>
         <servlets.version>4.0.1</servlets.version>
         <jackson.version>2.11.1</jackson.version>
+        <c3p0.version>5.4.20.Final</c3p0.version>
+        <mariadb.jdbc.version>2.6.2</mariadb.jdbc.version>
     </properties>
 
     <dependencies>
@@ -30,12 +35,12 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>5.4.18.Final</version>
+            <version>${c3p0.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>2.6.1</version>
+            <version>${mariadb.jdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>org.modelmapper</groupId>
@@ -66,7 +71,7 @@
         <dependency>
             <groupId>org.springframework.hateoas</groupId>
             <artifactId>spring-hateoas</artifactId>
-            <version>1.1.1.RELEASE</version>
+            <version>${spring.hateoas.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
@@ -81,7 +86,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>2.1.4.RELEASE</version>
+            <version>${spring.data.version}</version>
         </dependency>
         <!-- Tests       -->
         <dependency>
@@ -111,7 +116,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.1.4.RELEASE</version>
+            <version>${spring.test.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
