@@ -1,7 +1,7 @@
-DROP SCHEMA IF EXISTS `carrental`;
-CREATE SCHEMA `carrental`;
+DROP SCHEMA IF EXISTS `carrentaltest`;
+CREATE SCHEMA `carrentaltest`;
 
-use `carrental`;
+use `carrentaltest`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -13,7 +13,7 @@ CREATE TABLE `users` (
     `surname` varchar(60) NOT NULL,
     `email` varchar(120) NOT NULL UNIQUE,
     `password` varchar(255) NOT NULL,
-    `phone_number` varchar(12) UNIQUE,
+    `phone_number` varchar(12),
     `active` boolean NOT NULL DEFAULT TRUE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
@@ -77,8 +77,8 @@ DROP TABLE IF EXISTS `countries`;
 
 CREATE TABLE `countries` (
 	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `name` varchar(100) NOT NULL UNIQUE,
-    `iso_code` varchar(3) NOT NULL UNIQUE
+    `name` varchar(100) NOT NULL,
+    `iso_code` char(6) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `localizations`;
