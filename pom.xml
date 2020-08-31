@@ -20,6 +20,7 @@
         <jackson.version>2.11.1</jackson.version>
         <c3p0.version>5.4.20.Final</c3p0.version>
         <mariadb.jdbc.version>2.6.2</mariadb.jdbc.version>
+        <sonar.coverage.exclusions>**/entity/**/*,**/dto/**/*</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
