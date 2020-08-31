@@ -21,5 +21,6 @@ before_install:
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   #  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Reggy93_company-car-reservation-spring-app
-  #  command below runs SonarCloud code coverage analysis
+  #  command below runs SonarCloud code coverage analysis,
+  #  see: https://steinar.bang.priv.no/2020/03/30/how-to-get-test-coverage-back-in-sonarcloud-maven-builds/
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar -Dsonar.projectKey=Reggy93_company-car-reservation-spring-app
