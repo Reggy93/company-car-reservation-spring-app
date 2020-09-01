@@ -23,11 +23,11 @@ import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Car.CARS;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Car.CARS_MODELS;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Car.MAKES;
-import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Localization.COUNTRIES;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Localization.LOCALIZATIONS;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.LinksConstants.*;
 
@@ -43,8 +43,10 @@ class CarListRepresentationModelAssemblerUnitTest {
     private static final String NO_LINK = "no_link";
 
     @InjectMocks
-    private final RepresentationModelAssembler<CarListDisplayDTO, EntityModel<CarListDisplayDTO>> testedAssembler =
-            new CarListRepresentationModelAssembler();
+    private CarListRepresentationModelAssembler testedAssembler;
+
+    @Mock
+    private RepresentationModelAssembler<CountryDTO, CountryDTO> countryDTORepresentationModelAssembler;
 
     @Mock
     private CarListDisplayDTO carListDisplayDTO1;
@@ -70,14 +72,10 @@ class CarListRepresentationModelAssemblerUnitTest {
     @Spy
     private LocalizationDTO localizationDTO2;
 
-    @Spy
-    private CountryDTO countryDTO1;
-
-    @Spy
-    private CountryDTO countryDTO2;
-
     @BeforeEach
     void setUp() {
+        testedAssembler = new CarListRepresentationModelAssembler(countryDTORepresentationModelAssembler);
+
         when(carListDisplayDTO1.getId()).thenReturn(1L);
         when(carListDisplayDTO1.getCarModel()).thenReturn(carModelDTO1);
         when(carListDisplayDTO1.getLocalization()).thenReturn(localizationDTO1);
@@ -88,9 +86,6 @@ class CarListRepresentationModelAssemblerUnitTest {
         when(makeDTO1.getId()).thenReturn(1L);
 
         when(localizationDTO1.getId()).thenReturn(1L);
-        when(localizationDTO1.getCountry()).thenReturn(countryDTO1);
-
-        when(countryDTO1.getId()).thenReturn(1L);
 
         when(carListDisplayDTO2.getId()).thenReturn(2L);
         when(carListDisplayDTO2.getCarModel()).thenReturn(carModelDTO2);
@@ -102,10 +97,6 @@ class CarListRepresentationModelAssemblerUnitTest {
         when(makeDTO2.getId()).thenReturn(2L);
 
         when(localizationDTO2.getId()).thenReturn(2L);
-        when(localizationDTO2.getCountry()).thenReturn(countryDTO2);
-
-        when(countryDTO2.getId()).thenReturn(2L);
-
     }
 
     @Test
@@ -124,9 +115,6 @@ class CarListRepresentationModelAssemblerUnitTest {
         LocalizationDTO localizationDTO = resultEntityModel.getContent().getLocalization();
         localizationAssertions(localizationDTO, localizationDTO1, LOCALIZATIONS + "/1");
 
-        CountryDTO countryDTO = localizationDTO.getCountry();
-        countryAssertions(countryDTO, countryDTO1, COUNTRIES + "/1");
-
         resultEntityModel = testedAssembler.toModel(carListDisplayDTO2);
 
         entityModelAssertions(resultEntityModel, carListDisplayDTO2, CARS + "/2");
@@ -140,8 +128,6 @@ class CarListRepresentationModelAssemblerUnitTest {
         localizationDTO = resultEntityModel.getContent().getLocalization();
         localizationAssertions(localizationDTO, localizationDTO2, LOCALIZATIONS + "/2");
 
-        countryDTO = localizationDTO.getCountry();
-        countryAssertions(countryDTO, countryDTO2, COUNTRIES + "/2");
     }
 
     @Test
@@ -206,15 +192,6 @@ class CarListRepresentationModelAssemblerUnitTest {
         assertThat(localizationDTO.getLink(SELF_RELATION).orElse(Link.of(NO_LINK)).getHref(), is(endsWith(idSuffix)));
         assertThat(localizationDTO.getLink(ALL_LOCALIZATIONS_RELATION).orElse(Link.of(NO_LINK)).getHref(),
                 is(endsWith(LOCALIZATIONS)));
-    }
-
-    private void countryAssertions(final CountryDTO countryDTO, final CountryDTO compareCountryDTO,
-                                   final String idSuffix) {
-
-        assertThat(countryDTO, is(compareCountryDTO));
-        assertThat(countryDTO.getLink(SELF_RELATION).orElse(Link.of(NO_LINK)).getHref(), is(endsWith(idSuffix)));
-        assertThat(countryDTO.getLink(ALL_COUNTRIES_RELATION).orElse(Link.of(NO_LINK)).getHref(),
-                is(endsWith(COUNTRIES)));
     }
 
 }

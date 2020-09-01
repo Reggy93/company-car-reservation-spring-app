@@ -41,6 +41,7 @@ class CarListServiceImplIntegrationTest extends AbstractIntegrationTest {
     void tearDown() {
         makeRepository.deleteAll();
         countryRepository.deleteAll();
+        carRepository.deleteAll();
     }
 
     @Test
@@ -54,11 +55,7 @@ class CarListServiceImplIntegrationTest extends AbstractIntegrationTest {
 
         final Car car3 = super.prepareCar(SKODA, SUPERB, POLAND, WARSAW, 2.0f,
                 FuelType.ON, 170, 5, "WE123Q");
-//
-//        testedService.saveCar(car1);
-//        testedService.saveCar(car2);
-//        testedService.saveCar(car3);
-//
+
         carRepository.saveAll(List.of(car1, car2, car3));
 
         final List<Car> carList = testedService.retrieveAllCars();

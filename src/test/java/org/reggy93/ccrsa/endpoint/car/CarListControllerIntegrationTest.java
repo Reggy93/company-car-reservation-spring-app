@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.reggy93.ccrsa.AbstractIntegrationTest;
 import org.reggy93.ccrsa.endpoint.car.controller.CarListController;
-import org.reggy93.ccrsa.facade.CarInfoDisplayFacade;
 import org.reggy93.ccrsa.service.dao.CarRepository;
 import org.reggy93.ccrsa.service.entity.car.Car;
 import org.reggy93.ccrsa.service.entity.car.FuelType;
@@ -40,9 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebAppConfiguration
 class CarListControllerIntegrationTest extends AbstractIntegrationTest {
-
-    @Autowired
-    private CarInfoDisplayFacade carInfoDisplayFacade;
 
     @Autowired
     private CarRepository carRepository;
@@ -111,67 +107,80 @@ class CarListControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.content.[1].links.[1].href").value(endsWith(CARS)))
 //                check links for car3
                 .andExpect(jsonPath("$.content.[2].links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[2].links.[0].href").value(endsWith(car3.getId().toString())))
+                .andExpect(jsonPath("$.content.[2].links.[0].href")
+                        .value(endsWith(car3.getId().toString())))
                 .andExpect(jsonPath("$.content.[2].links.[1].rel").value(is(ALL_CARS_RELATION)))
                 .andExpect(jsonPath("$.content.[2].links.[1].href").value(endsWith(CARS)))
 //                check links for carModel of car1
                 .andExpect(jsonPath("$.content.[0].carModel.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[0].carModel.links.[0].href").value(endsWith(car1.getCarModel().getId().toString())))
+                .andExpect(jsonPath("$.content.[0].carModel.links.[0].href")
+                        .value(endsWith(car1.getCarModel().getId().toString())))
                 .andExpect(jsonPath("$.content.[0].carModel.links.[1].rel").value(is(ALL_CARS_MODELS_RELATION)))
                 .andExpect(jsonPath("$.content.[0].carModel.links.[1].href").value(endsWith(CARS_MODELS)))
 //                check links for carModel of car2
                 .andExpect(jsonPath("$.content.[1].carModel.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[1].carModel.links.[0].href").value(endsWith(car2.getCarModel().getId().toString())))
+                .andExpect(jsonPath("$.content.[1].carModel.links.[0].href")
+                        .value(endsWith(car2.getCarModel().getId().toString())))
                 .andExpect(jsonPath("$.content.[1].carModel.links.[1].rel").value(is(ALL_CARS_MODELS_RELATION)))
                 .andExpect(jsonPath("$.content.[1].carModel.links.[1].href").value(endsWith(CARS_MODELS)))
 //                check links for carModel of car3
                 .andExpect(jsonPath("$.content.[2].carModel.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[2].carModel.links.[0].href").value(endsWith(car3.getCarModel().getId().toString())))
+                .andExpect(jsonPath("$.content.[2].carModel.links.[0].href")
+                        .value(endsWith(car3.getCarModel().getId().toString())))
                 .andExpect(jsonPath("$.content.[2].carModel.links.[1].rel").value(is(ALL_CARS_MODELS_RELATION)))
                 .andExpect(jsonPath("$.content.[2].carModel.links.[1].href").value(endsWith(CARS_MODELS)))
 //                check links for make of car1
                 .andExpect(jsonPath("$.content.[0].carModel.make.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[0].carModel.make.links.[0].href").value(endsWith(car1.getCarModel().getMake().getId().toString())))
+                .andExpect(jsonPath("$.content.[0].carModel.make.links.[0].href")
+                        .value(endsWith(car1.getCarModel().getMake().getId().toString())))
                 .andExpect(jsonPath("$.content.[0].carModel.make.links.[1].rel").value(is(ALL_MAKES_RELATION)))
                 .andExpect(jsonPath("$.content.[0].carModel.make.links.[1].href").value(endsWith(MAKES)))
 //                check links for make of car2
                 .andExpect(jsonPath("$.content.[1].carModel.make.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[1].carModel.make.links.[0].href").value(endsWith(car2.getCarModel().getMake().getId().toString())))
+                .andExpect(jsonPath("$.content.[1].carModel.make.links.[0].href")
+                        .value(endsWith(car2.getCarModel().getMake().getId().toString())))
                 .andExpect(jsonPath("$.content.[1].carModel.make.links.[1].rel").value(is(ALL_MAKES_RELATION)))
                 .andExpect(jsonPath("$.content.[1].carModel.make.links.[1].href").value(endsWith(MAKES)))
 //               check links form make of car3
                 .andExpect(jsonPath("$.content.[2].carModel.make.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[2].carModel.make.links.[0].href").value(endsWith(car3.getCarModel().getMake().getId().toString())))
+                .andExpect(jsonPath("$.content.[2].carModel.make.links.[0].href")
+                        .value(endsWith(car3.getCarModel().getMake().getId().toString())))
                 .andExpect(jsonPath("$.content.[2].carModel.make.links.[1].rel").value(is(ALL_MAKES_RELATION)))
                 .andExpect(jsonPath("$.content.[2].carModel.make.links.[1].href").value(endsWith(MAKES)))
 //               check links for localization of car1
                 .andExpect(jsonPath("$.content.[0].localization.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[0].localization.links.[0].href").value(endsWith(car1.getLocalization().getId().toString())))
+                .andExpect(jsonPath("$.content.[0].localization.links.[0].href")
+                        .value(endsWith(car1.getLocalization().getId().toString())))
                 .andExpect(jsonPath("$.content.[0].localization.links.[1].rel").value(is(ALL_LOCALIZATIONS_RELATION)))
                 .andExpect(jsonPath("$.content.[0].localization.links.[1].href").value(endsWith(LOCALIZATIONS)))
 //                check links for localization of car2
                 .andExpect(jsonPath("$.content.[1].localization.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[1].localization.links.[0].href").value(endsWith(car2.getLocalization().getId().toString())))
+                .andExpect(jsonPath("$.content.[1].localization.links.[0].href")
+                        .value(endsWith(car2.getLocalization().getId().toString())))
                 .andExpect(jsonPath("$.content.[1].localization.links.[1].rel").value(is(ALL_LOCALIZATIONS_RELATION)))
                 .andExpect(jsonPath("$.content.[1].localization.links.[1].href").value(endsWith(LOCALIZATIONS)))
 //                check links for localization of car3
                 .andExpect(jsonPath("$.content.[2].localization.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[2].localization.links.[0].href").value(endsWith(car3.getLocalization().getId().toString())))
+                .andExpect(jsonPath("$.content.[2].localization.links.[0].href")
+                        .value(endsWith(car3.getLocalization().getId().toString())))
                 .andExpect(jsonPath("$.content.[2].localization.links.[1].rel").value(is(ALL_LOCALIZATIONS_RELATION)))
                 .andExpect(jsonPath("$.content.[2].localization.links.[1].href").value(endsWith(LOCALIZATIONS)))
 //                check links for country of car1
                 .andExpect(jsonPath("$.content.[0].localization.country.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[0].localization.country.links.[0].href").value(endsWith(car1.getLocalization().getCountry().getId().toString())))
+                .andExpect(jsonPath("$.content.[0].localization.country.links.[0].href")
+                        .value(endsWith(car1.getLocalization().getCountry().getId().toString())))
                 .andExpect(jsonPath("$.content.[0].localization.country.links.[1].rel").value(is(ALL_COUNTRIES_RELATION)))
                 .andExpect(jsonPath("$.content.[0].localization.country.links.[1].href").value(endsWith(COUNTRIES)))
 //                check links for country of car2
                 .andExpect(jsonPath("$.content.[1].localization.country.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[1].localization.country.links.[0].href").value(endsWith(car2.getLocalization().getCountry().getId().toString())))
+                .andExpect(jsonPath("$.content.[1].localization.country.links.[0].href")
+                        .value(endsWith(car2.getLocalization().getCountry().getId().toString())))
                 .andExpect(jsonPath("$.content.[1].localization.country.links.[1].rel").value(is(ALL_COUNTRIES_RELATION)))
                 .andExpect(jsonPath("$.content.[1].localization.country.links.[1].href").value(endsWith(COUNTRIES)))
 //                check links for country of car3
                 .andExpect(jsonPath("$.content.[2].localization.country.links.[0].rel").value(is(SELF_RELATION)))
-                .andExpect(jsonPath("$.content.[2].localization.country.links.[0].href").value(endsWith(car3.getLocalization().getCountry().getId().toString())))
+                .andExpect(jsonPath("$.content.[2].localization.country.links.[0].href")
+                        .value(endsWith(car3.getLocalization().getCountry().getId().toString())))
                 .andExpect(jsonPath("$.content.[2].localization.country.links.[1].rel").value(is(ALL_COUNTRIES_RELATION)))
                 .andExpect(jsonPath("$.content.[2].localization.country.links.[1].href").value(endsWith(COUNTRIES)))
                 .andReturn();

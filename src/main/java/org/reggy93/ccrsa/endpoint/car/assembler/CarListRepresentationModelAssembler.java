@@ -3,13 +3,13 @@ package org.reggy93.ccrsa.endpoint.car.assembler;
 import org.reggy93.ccrsa.endpoint.car.controller.CarListController;
 import org.reggy93.ccrsa.endpoint.car.controller.CarModelController;
 import org.reggy93.ccrsa.endpoint.car.controller.MakeController;
-import org.reggy93.ccrsa.endpoint.localization.CountryController;
 import org.reggy93.ccrsa.endpoint.localization.LocalizationController;
 import org.reggy93.ccrsa.facade.dto.api.car.CarListDisplayDTO;
 import org.reggy93.ccrsa.facade.dto.car.CarModelDTO;
 import org.reggy93.ccrsa.facade.dto.car.CountryDTO;
 import org.reggy93.ccrsa.facade.dto.car.LocalizationDTO;
 import org.reggy93.ccrsa.facade.dto.car.MakeDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -23,11 +23,21 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
+ * Converts {@link CarListDisplayDTO} to {@link EntityModel} of {@link CarListDisplayDTO} by assembling target model
+ * with appropriate links relations.
+ *
  * @author Reggy93 <marcin.z.wrobel@gmail.com>
  * created on 12 Aug 2020
  */
 @Component
 public class CarListRepresentationModelAssembler implements RepresentationModelAssembler<CarListDisplayDTO, EntityModel<CarListDisplayDTO>> {
+
+    private final RepresentationModelAssembler<CountryDTO, CountryDTO> countryRepresentationModelAssembler;
+
+    @Autowired
+    public CarListRepresentationModelAssembler(RepresentationModelAssembler<CountryDTO, CountryDTO> countryRepresentationModelAssembler) {
+        this.countryRepresentationModelAssembler = countryRepresentationModelAssembler;
+    }
 
     @Override
     public EntityModel<CarListDisplayDTO> toModel(CarListDisplayDTO entity) {
@@ -44,9 +54,8 @@ public class CarListRepresentationModelAssembler implements RepresentationModelA
         localizationDTO.add(linkTo(methodOn(LocalizationController.class).getLocalizationById(localizationDTO.getId())).withSelfRel());
         localizationDTO.add(linkTo(methodOn(LocalizationController.class).getAllLocalizations()).withRel(ALL_LOCALIZATIONS_RELATION));
 
-        final CountryDTO countryDTO = localizationDTO.getCountry();
-        countryDTO.add(linkTo(methodOn(CountryController.class).getCountryById(countryDTO.getId())).withSelfRel());
-        countryDTO.add(linkTo(methodOn(CountryController.class).getAllCountries()).withRel(ALL_COUNTRIES_RELATION));
+//        TODO: move to localization assembler when it's created
+        countryRepresentationModelAssembler.toModel(localizationDTO.getCountry());
 
         return EntityModel.of(entity,
                 linkTo(methodOn(CarListController.class).getCarById(entity.getId())).withSelfRel(),
