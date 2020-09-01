@@ -64,7 +64,8 @@ class CarListControllerUnitTest {
     void getAllCarsTest() throws FacadeOperationException {
 
         when(carInfoDisplayFacade.getAllCars()).thenReturn(Set.of(carListDisplayDTO1, carListDisplayDTO2));
-        when(carListRepresentationModelAssembler.toCollectionModel(Set.of(carListDisplayDTO1, carListDisplayDTO2))).thenReturn(entityModelCollectionModel);
+        when(carListRepresentationModelAssembler.toCollectionModel(Set.of(carListDisplayDTO1, carListDisplayDTO2)))
+                .thenReturn(entityModelCollectionModel);
 
         final ResponseEntity<CollectionModel<EntityModel<CarListDisplayDTO>>> result = testedController.getAllCars();
 
