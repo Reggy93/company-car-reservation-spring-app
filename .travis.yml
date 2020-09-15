@@ -6,8 +6,9 @@ jdk: "-openjdk11"
 addons:
   sonarcloud:
     organization: "reggy93"
-    token:
-      secure: "vK7FotNIxxQAggjdDKSH+zwhB1RiyuA7aWcSWo/m0MKoJeez7lm6X3DdLvvmnw+p8tiUedukBtRXgtLAT6STgfXeX5BY8pq2Vf+wcfxa+hIyPecMVhshtvo0m8sVq4BJaV492D/h9B5NiFHsxac3NCCF4y6NvyiA8VfrM6odRfpmx8AnqFrGqIUEuA4mbTv1hdcMjmH0bB6nGF+CHP8n6jYMVeWiLtKajZSDfCSckfYTwljZpx1wSrt7k/6NZPTF2DEcxKtkDxEZPEPIG9xqoLQzjyippIu5JatEAMoHulxyUh/RqOVJDWOLLv18C8idWA8bqxCBiD6o8FmqAuIsahAVeBF5W9IlcJGmI21tDLqVMVsgAwZKJAf4U2EwavUaJXSnsxgLPkGElkjiKClyA+KFkq+R3fMNvxWyPnFNlskuTOeFN8vd/zAJlardmbSvJVUMttd/M3xx1dn9f1tuzzXaoZnxDPzG3/A6cMEEHxdjuP7BX6DnHpk9iAKUaw5aXNccmKazyHMdhld+IpNPYEXRWspOzez1k4ylizYPm1VnJTMwQToTsm+x+TEuFYpgAtD2eJG+JoVR3V2unRaZP0h+96SBLQrHGlLTGTnh9fgvgFjmStB7pDt5tCc+tQi+ZBY7jEgcAoDCDwdT6d63Qp90FCKnInpl4GmTLFZlNs4="
+#    Not needed since SONAR_TOKEN added to Travis CI variables
+#    token:
+#      secure: "$SONAR_TOKEN"
   mariadb: '10.5'
 
 cache:
@@ -19,8 +20,6 @@ before_install:
   - sudo mysql -u root --password="" < src/test/resources/META-INF.scripts/carrentaltest_table_creation.sql
 
 script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  #  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Reggy93_company-car-reservation-spring-app
   #  command below runs SonarCloud code coverage analysis,
   #  see: https://steinar.bang.priv.no/2020/03/30/how-to-get-test-coverage-back-in-sonarcloud-maven-builds/
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar -Dsonar.projectKey=Reggy93_company-car-reservation-spring-app
