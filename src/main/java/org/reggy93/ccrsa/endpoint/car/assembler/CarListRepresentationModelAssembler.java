@@ -32,11 +32,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Component
 public class CarListRepresentationModelAssembler implements RepresentationModelAssembler<CarListDisplayDTO, EntityModel<CarListDisplayDTO>> {
 
-    private final RepresentationModelAssembler<CountryDTO, CountryDTO> countryRepresentationModelAssembler;
+    private final RepresentationModelAssembler<LocalizationDTO, LocalizationDTO> localizationRepresentationModelAssembler;
 
     @Autowired
-    public CarListRepresentationModelAssembler(RepresentationModelAssembler<CountryDTO, CountryDTO> countryRepresentationModelAssembler) {
-        this.countryRepresentationModelAssembler = countryRepresentationModelAssembler;
+    public CarListRepresentationModelAssembler(RepresentationModelAssembler<LocalizationDTO, LocalizationDTO> localizationRepresentationModelAssembler) {
+        this.localizationRepresentationModelAssembler = localizationRepresentationModelAssembler;
     }
 
     @Override
@@ -50,12 +50,7 @@ public class CarListRepresentationModelAssembler implements RepresentationModelA
         makeDTO.add(linkTo(methodOn(MakeController.class).getMakeById(makeDTO.getId())).withSelfRel());
         makeDTO.add(linkTo(methodOn(MakeController.class).getAllMakes()).withRel(ALL_MAKES_RELATION));
 
-        final LocalizationDTO localizationDTO = entity.getLocalization();
-        localizationDTO.add(linkTo(methodOn(LocalizationController.class).getLocalizationById(localizationDTO.getId())).withSelfRel());
-        localizationDTO.add(linkTo(methodOn(LocalizationController.class).getAllLocalizations()).withRel(ALL_LOCALIZATIONS_RELATION));
-
-//        TODO: move to localization assembler when it's created
-        countryRepresentationModelAssembler.toModel(localizationDTO.getCountry());
+        localizationRepresentationModelAssembler.toModel(entity.getLocalization());
 
         return EntityModel.of(entity,
                 linkTo(methodOn(CarListController.class).getCarById(entity.getId())).withSelfRel(),

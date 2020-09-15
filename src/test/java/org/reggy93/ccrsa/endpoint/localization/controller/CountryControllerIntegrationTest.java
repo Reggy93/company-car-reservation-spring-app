@@ -1,10 +1,9 @@
-package org.reggy93.ccrsa.endpoint.localization;
+package org.reggy93.ccrsa.endpoint.localization.controller;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.reggy93.ccrsa.AbstractIntegrationTest;
-import org.reggy93.ccrsa.endpoint.localization.controller.CountryController;
 import org.reggy93.ccrsa.service.dao.CountryRepository;
 import org.reggy93.ccrsa.service.entity.car.Country;
 import org.springframework.beans.factory.annotation.Autowired;

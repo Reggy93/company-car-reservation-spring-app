@@ -4,7 +4,9 @@ import org.reggy93.ccrsa.service.entity.car.Localization;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.reggy93.ccrsa.service.ServiceConstants.Localization.LOCALIZATION_LIST_COUNTRY;
 
@@ -18,12 +20,30 @@ import static org.reggy93.ccrsa.service.ServiceConstants.Localization.LOCALIZATI
 public interface LocalizationRepository extends JpaRepository<Localization, Long> {
 
     /**
+     * Finds all {@link Localization} in the database.
+     *
+     * @return {@link List} of all {@link Localization} found in the database
+     */
+    @Override
+    @EntityGraph(value = LOCALIZATION_LIST_COUNTRY, type = EntityGraph.EntityGraphType.LOAD)
+    List<Localization> findAll();
+
+    /**
+     * Finds {@link Localization} by given {@code id}.
+     *
+     * @param aLong {@code id} of the {@link Localization}
+     * @return {@link Optional} of {@link Localization} with found localization or an empty optional
+     */
+    @Override
+    @EntityGraph(value = LOCALIZATION_LIST_COUNTRY, type = EntityGraph.EntityGraphType.LOAD)
+    Optional<Localization> findById(Long aLong);
+
+    /**
      * Searches for localization with {@code city} passed as search parameter.
      *
      * @param city name of the city to search by
      * @return {@link Localization} with given {@code city}
      */
-    @Transactional(readOnly = true)
     @EntityGraph(value = LOCALIZATION_LIST_COUNTRY, type = EntityGraph.EntityGraphType.LOAD)
-    Localization findByCity(String city);
+    Optional<Localization> findByCity(String city);
 }

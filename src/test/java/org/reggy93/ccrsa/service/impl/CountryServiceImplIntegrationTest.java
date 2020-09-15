@@ -73,7 +73,7 @@ class CountryServiceImplIntegrationTest extends AbstractIntegrationTest {
                 testedService.retrieveCountryById(firstRetrievedCountryId);
 
         assertTrue(result.isPresent());
-        assertThat(POLAND, is(result.get().getName()));
+        assertThat(result.get().getName(), is(POLAND));
     }
 
     @Test
