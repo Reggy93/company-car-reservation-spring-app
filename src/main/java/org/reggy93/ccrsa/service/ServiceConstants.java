@@ -11,6 +11,10 @@ public final class ServiceConstants {
     private ServiceConstants() {
     }
 
+    /**
+     * Static class to to hold {@link Car} constants.
+     *
+     */
     public static final class Car {
 
         private Car() {
@@ -22,6 +26,9 @@ public final class ServiceConstants {
 
     }
 
+    /**
+     * Static class to hold {@link Localization} constants.
+     */
     public static final class Localization {
 
         private Localization() {

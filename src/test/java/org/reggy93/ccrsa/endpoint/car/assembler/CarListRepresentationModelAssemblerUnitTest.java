@@ -9,7 +9,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.reggy93.ccrsa.facade.dto.api.car.CarListDisplayDTO;
 import org.reggy93.ccrsa.facade.dto.car.CarModelDTO;
-import org.reggy93.ccrsa.facade.dto.car.CountryDTO;
 import org.reggy93.ccrsa.facade.dto.car.LocalizationDTO;
 import org.reggy93.ccrsa.facade.dto.car.MakeDTO;
 import org.springframework.hateoas.CollectionModel;
@@ -23,12 +22,10 @@ import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Car.CARS;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Car.CARS_MODELS;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Car.MAKES;
-import static org.reggy93.ccrsa.endpoint.EndpointConstants.ControllerPathConstants.Localization.LOCALIZATIONS;
 import static org.reggy93.ccrsa.endpoint.EndpointConstants.LinksConstants.*;
 
 /**
@@ -46,7 +43,7 @@ class CarListRepresentationModelAssemblerUnitTest {
     private CarListRepresentationModelAssembler testedAssembler;
 
     @Mock
-    private RepresentationModelAssembler<CountryDTO, CountryDTO> countryDTORepresentationModelAssembler;
+    private RepresentationModelAssembler<LocalizationDTO, LocalizationDTO> localizationDTORepresentationModelAssembler;
 
     @Mock
     private CarListDisplayDTO carListDisplayDTO1;
@@ -66,37 +63,25 @@ class CarListRepresentationModelAssemblerUnitTest {
     @Spy
     private MakeDTO makeDTO2;
 
-    @Spy
-    private LocalizationDTO localizationDTO1;
-
-    @Spy
-    private LocalizationDTO localizationDTO2;
-
     @BeforeEach
     void setUp() {
-        testedAssembler = new CarListRepresentationModelAssembler(countryDTORepresentationModelAssembler);
+        testedAssembler = new CarListRepresentationModelAssembler(localizationDTORepresentationModelAssembler);
 
         when(carListDisplayDTO1.getId()).thenReturn(1L);
         when(carListDisplayDTO1.getCarModel()).thenReturn(carModelDTO1);
-        when(carListDisplayDTO1.getLocalization()).thenReturn(localizationDTO1);
 
         when(carModelDTO1.getId()).thenReturn(1L);
         when(carModelDTO1.getMake()).thenReturn(makeDTO1);
 
         when(makeDTO1.getId()).thenReturn(1L);
 
-        when(localizationDTO1.getId()).thenReturn(1L);
-
         when(carListDisplayDTO2.getId()).thenReturn(2L);
         when(carListDisplayDTO2.getCarModel()).thenReturn(carModelDTO2);
-        when(carListDisplayDTO2.getLocalization()).thenReturn(localizationDTO2);
 
         when(carModelDTO2.getId()).thenReturn(2L);
         when(carModelDTO2.getMake()).thenReturn(makeDTO2);
 
         when(makeDTO2.getId()).thenReturn(2L);
-
-        when(localizationDTO2.getId()).thenReturn(2L);
     }
 
     @Test
@@ -112,9 +97,6 @@ class CarListRepresentationModelAssemblerUnitTest {
         MakeDTO makeDTO = carModelDTO.getMake();
         makeAssertions(makeDTO, makeDTO1, MAKES + "/1");
 
-        LocalizationDTO localizationDTO = resultEntityModel.getContent().getLocalization();
-        localizationAssertions(localizationDTO, localizationDTO1, LOCALIZATIONS + "/1");
-
         resultEntityModel = testedAssembler.toModel(carListDisplayDTO2);
 
         entityModelAssertions(resultEntityModel, carListDisplayDTO2, CARS + "/2");
@@ -124,9 +106,6 @@ class CarListRepresentationModelAssemblerUnitTest {
 
         makeDTO = carModelDTO2.getMake();
         makeAssertions(makeDTO, makeDTO2, MAKES + "/2");
-
-        localizationDTO = resultEntityModel.getContent().getLocalization();
-        localizationAssertions(localizationDTO, localizationDTO2, LOCALIZATIONS + "/2");
 
     }
 
@@ -183,15 +162,6 @@ class CarListRepresentationModelAssemblerUnitTest {
         assertThat(makeDTO, is(compareMakeDTO));
         assertThat(makeDTO.getLink(SELF_RELATION).orElse(Link.of(NO_LINK)).getHref(), is(endsWith(idSuffix)));
         assertThat(makeDTO.getLink(ALL_MAKES_RELATION).orElse(Link.of(NO_LINK)).getHref(), is(endsWith(MAKES)));
-    }
-
-    private void localizationAssertions(final LocalizationDTO localizationDTO,
-                                        final LocalizationDTO compareLocalizationDTO, final String idSuffix) {
-
-        assertThat(localizationDTO, is(compareLocalizationDTO));
-        assertThat(localizationDTO.getLink(SELF_RELATION).orElse(Link.of(NO_LINK)).getHref(), is(endsWith(idSuffix)));
-        assertThat(localizationDTO.getLink(ALL_LOCALIZATIONS_RELATION).orElse(Link.of(NO_LINK)).getHref(),
-                is(endsWith(LOCALIZATIONS)));
     }
 
 }

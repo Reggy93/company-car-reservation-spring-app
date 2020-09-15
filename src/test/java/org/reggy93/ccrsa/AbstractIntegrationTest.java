@@ -42,10 +42,10 @@ public abstract class AbstractIntegrationTest {
     private static final Map<String, String> countryIsoCodeMap = new HashMap<>();
 
     @Autowired
-    private CarModelRepository carModelRepository;
+    protected CarModelRepository carModelRepository;
 
     @Autowired
-    private LocalizationRepository localizationRepository;
+    protected LocalizationRepository localizationRepository;
 
     @Autowired
     protected CountryRepository countryRepository;
@@ -94,7 +94,7 @@ public abstract class AbstractIntegrationTest {
 
     protected Localization prepareLocalization(final String cityName, final String countryName) {
 
-        return Optional.ofNullable(localizationRepository.findByCity(cityName))
+        return localizationRepository.findByCity(cityName)
                 .orElseGet(() -> createAndSaveNewLocalization(cityName, prepareCountry(countryName)));
     }
 

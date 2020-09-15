@@ -1,4 +1,4 @@
-package org.reggy93.ccrsa.endpoint.localization;
+package org.reggy93.ccrsa.endpoint.localization.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
