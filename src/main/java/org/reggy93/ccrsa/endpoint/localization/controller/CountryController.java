@@ -1,4 +1,4 @@
-package org.reggy93.ccrsa.endpoint.localization;
+package org.reggy93.ccrsa.endpoint.localization.controller;
 
 import org.reggy93.ccrsa.facade.CountryInfoDisplayFacade;
 import org.reggy93.ccrsa.facade.dto.car.CountryDTO;

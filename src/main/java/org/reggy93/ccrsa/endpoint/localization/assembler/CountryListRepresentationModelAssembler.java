@@ -1,6 +1,6 @@
-package org.reggy93.ccrsa.endpoint.car.assembler;
+package org.reggy93.ccrsa.endpoint.localization.assembler;
 
-import org.reggy93.ccrsa.endpoint.localization.CountryController;
+import org.reggy93.ccrsa.endpoint.localization.controller.CountryController;
 import org.reggy93.ccrsa.facade.dto.car.CountryDTO;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;

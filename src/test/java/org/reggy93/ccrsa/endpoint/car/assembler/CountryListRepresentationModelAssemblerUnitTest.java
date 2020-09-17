@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.reggy93.ccrsa.endpoint.localization.assembler.CountryListRepresentationModelAssembler;
 import org.reggy93.ccrsa.facade.dto.car.CountryDTO;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
