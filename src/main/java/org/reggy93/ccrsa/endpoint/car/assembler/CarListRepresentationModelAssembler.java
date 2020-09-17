@@ -3,7 +3,7 @@ package org.reggy93.ccrsa.endpoint.car.assembler;
 import org.reggy93.ccrsa.endpoint.car.controller.CarListController;
 import org.reggy93.ccrsa.endpoint.car.controller.CarModelController;
 import org.reggy93.ccrsa.endpoint.car.controller.MakeController;
-import org.reggy93.ccrsa.endpoint.localization.LocalizationController;
+import org.reggy93.ccrsa.endpoint.localization.controller.LocalizationController;
 import org.reggy93.ccrsa.facade.dto.api.car.CarListDisplayDTO;
 import org.reggy93.ccrsa.facade.dto.car.CarModelDTO;
 import org.reggy93.ccrsa.facade.dto.car.CountryDTO;
